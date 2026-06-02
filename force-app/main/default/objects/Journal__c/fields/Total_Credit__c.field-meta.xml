@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Credit__c</fullName>
+    <label>Total Credit</label>
+    <summarizedField>Journal_Line__c.Credit__c</summarizedField>
+    <summaryForeignKey>Journal_Line__c.Journal__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

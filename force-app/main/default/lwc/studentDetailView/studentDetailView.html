@@ -1,0 +1,14 @@
+<template>
+    <template if:true={errorMsg}>
+        <lightning-card title="Student"></lightning-card>
+        i {recordId}
+        <c-failure-comp message={errorMsg}></c-failure-comp>
+    </template>
+    <template if:false={errorMsg}>
+        <lightning-card title={student.Name} class="slds-grid slds-wrap slds-gutters">
+            <div class="slds-dl_horizontal slds-grid slds-list_horizontal slds-grid_align-spread">
+
+            </div>
+        </lightning-card>
+    </template>
+</template>

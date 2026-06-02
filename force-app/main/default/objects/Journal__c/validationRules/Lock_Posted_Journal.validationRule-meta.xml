@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lock_Posted_Journal</fullName>
+    <active>true</active>
+    <description>Posted Journals cannot be edited.</description>
+    <errorConditionFormula>AND(ISPICKVAL(Status__c, &quot;Posted&quot;), Is_Locked__c = TRUE)</errorConditionFormula>
+    <errorMessage>Posted Journals cannot be edited.</errorMessage>
+</ValidationRule>

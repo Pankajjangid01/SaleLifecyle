@@ -1,0 +1,228 @@
+<template>
+    <lightning-card title="Sales Lifecycle Tracker" icon-name="standard:opportunity">
+
+        <div class="slds-p-horizontal_medium slds-p-bottom_small">
+            <div class="slds-grid slds-gutters_small slds-grid_vertical-align-end">
+                <div class="slds-col">
+                    <lightning-input
+                        label="Search by Lead, Opportunity, or Invoice"
+                        placeholder="e.g. LEAD-00042, INV-0001, or Mehta Interiors"
+                        value={searchId}
+                        onchange={handleSearchInput}>
+                    </lightning-input>
+                </div>
+
+                <div class="slds-col slds-grow-none">
+                    <lightning-button
+                        label="Search"
+                        variant="brand"
+                        icon-name="utility:search"
+                        onclick={handleSearch}>
+                    </lightning-button>
+                </div>
+            </div>
+        </div>
+
+        <template if:true={isLoading}>
+            <div class="slds-p-around_medium slds-align_absolute-center">
+                <lightning-spinner
+                    alternative-text="Loading..."
+                    size="medium">
+                </lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={hasError}>
+            <div class="slds-p-horizontal_medium">
+                <div class="slds-notify slds-notify_alert slds-theme_error" role="alert">
+
+                    <span class="slds-assistive-text">
+                        Error
+                    </span>
+
+                    <lightning-icon
+                        icon-name="utility:error"
+                        alternative-text="Error"
+                        size="x-small"
+                        class="slds-m-right_x-small">
+                    </lightning-icon>
+
+                    {errorMessage}
+
+                </div>
+            </div>
+        </template>
+
+        <template if:true={hasData}>
+            <template for:each={chainData} for:item="item" for:index="index">
+                <div
+                    key={item._computedKey}
+                    class="slds-box slds-m-around_medium lifecycle-container">
+                    <div class="lifecycle-flow">
+                        <div class="stage-card stage-lead">
+                            <div class="stage-header">
+                                <div>
+                                    <span class="stage-label">
+                                        Lead
+                                    </span>
+                                    <template if:true={item.lead}>
+                                        <h3>{item.lead.Name}</h3>
+                                    </template>
+                                    <template if:false={item.lead}>
+                                        <h3>Not available</h3>
+                                    </template>
+                                </div>
+                                <template if:true={item.lead}>
+                                    <lightning-button
+                                        label="View"
+                                        variant="neutral"
+                                        size="small"
+                                        icon-name="utility:new_window"
+                                        onclick={viewLead}
+                                        data-index={index}
+                                        class="stage-action">
+                                    </lightning-button>
+                                </template>
+                            </div>
+                            <div class="stage-details">
+                                <template if:true={item.lead}>
+                                    <p><strong>Company:</strong> {item.lead.Company}</p>
+                                    <p><strong>Status:</strong> {item.lead.Status}</p>
+                                    <p><strong>Email:</strong> {item.lead.Email}</p>
+                                    <p><strong>Phone:</strong> {item.lead.Phone}</p>
+                                </template>
+                                <template if:false={item.lead}>
+                                    <p class="stage-empty">
+                                        No lead record found for this lifecycle.
+                                    </p>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="flow-arrow"></div>
+                        <div class="stage-card stage-opportunity">
+                            <div class="stage-header">
+                                <div>
+                                    <span class="stage-label">
+                                        Opportunity
+                                    </span>
+                                    <template if:true={item.opportunity}>
+                                        <h3>{item.opportunity.Name}</h3>
+                                    </template>
+
+                                    <template if:false={item.opportunity}>
+                                        <h3>Not available</h3>
+                                    </template>
+                                </div>
+                                <template if:true={item.opportunity}>
+                                <lightning-button
+                                    label="View"
+                                    variant="neutral"
+                                    size="small"
+                                    icon-name="utility:new_window"
+                                    onclick={viewOpportunity}
+                                    data-index={index}
+                                    class="stage-action">
+                                   </lightning-button>
+                                </template>
+                            </div>
+                            <div class="stage-details">
+                                <template if:true={item.opportunity}>
+                                    <p><strong>Stage:</strong> {item.opportunity.StageName}</p>
+                                    <p><strong>Close Date:</strong> {item.opportunity.CloseDate}</p>
+                                    <p><strong>Amount:</strong> {item.opportunity.Amount}</p>
+                                    <p><strong>Account:</strong> {item.opportunity.Account.Name}</p>
+                                </template>
+                                <template if:false={item.opportunity}>
+                                    <p class="stage-empty">
+                                        No opportunity record found for this lifecycle.
+                                    </p>
+                                </template>
+                            </div>
+                        </div>
+
+                        <div class="flow-arrow"></div>
+                        <div class="stage-card stage-quote">
+                            <div class="stage-header">
+                                <div>
+                                    <span class="stage-label">
+                                        Quote
+                                    </span>
+                                    <template if:true={item.quoteRecord}>
+                                        <h3>{item.quoteRecord.Name}</h3>
+                                    </template>
+
+                                    <template if:false={item.quoteRecord}>
+                                        <h3>Not available</h3>
+                                    </template>
+                                </div>
+                                <template if:true={item.quoteRecord}>
+                                    <lightning-button
+                                        label="View"
+                                        variant="neutral"
+                                        size="small"
+                                        icon-name="utility:new_window"
+                                        onclick={viewQuote}
+                                        data-index={index}
+                                        class="stage-action">
+                                    </lightning-button>
+                                </template>
+                            </div>
+                            <div class="stage-details">
+                                <template if:true={item.quoteRecord}>
+                                    <p><strong>Quote Number:</strong> {item.quoteRecord.QuoteNumber}</p>
+                                    <p><strong>Total Price:</strong> {item.quoteRecord.TotalPrice}</p>
+                                </template>
+                                <template if:false={item.quoteRecord}>
+                                    <p class="stage-empty">
+                                        No quote record found for this lifecycle.
+                                    </p>
+                                </template>
+                            </div>
+                        </div>
+
+                        <div class="flow-arrow"></div>
+                        <div class="stage-card stage-invoice">
+                            <div class="stage-header">
+                                <div>
+                                    <span class="stage-label">
+                                        Invoice
+                                    </span>
+                                    <template if:true={item.invoiceRecord}>
+                                        <h3>{item.invoiceRecord.Name}</h3>
+                                    </template>
+                                    <template if:false={item.invoiceRecord}>
+                                        <h3>Not available</h3>
+                                    </template>
+                                </div>
+                                <template if:true={item.invoiceRecord}>
+                                    <lightning-button
+                                        label="View"
+                                        variant="neutral"
+                                        size="small"
+                                        icon-name="utility:new_window"
+                                        onclick={viewInvoice}
+                                        data-index={index}
+                                        class="stage-action">
+                                    </lightning-button>
+                                </template>
+                            </div>
+
+                            <div class="stage-details">
+                                <template if:true={item.invoiceRecord}>
+                                    <p><strong>Amount:</strong> {item.invoiceRecord.Amount__c}</p>
+                                    <p><strong>Due Date:</strong> {item.invoiceRecord.Due_Date__c}</p>
+                                    <p><strong>Account:</strong> {item.invoiceRecord.Account__r.Name}</p>
+                                </template>
+                                <template if:false={item.invoiceRecord}>
+                                    <p class="stage-empty">
+                                        No invoice record found for this lifecycle.
+                                    </p>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </template>
+    </lightning-card>
+</template>

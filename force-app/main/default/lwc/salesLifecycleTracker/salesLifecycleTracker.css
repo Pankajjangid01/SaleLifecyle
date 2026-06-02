@@ -1,0 +1,251 @@
+.tracker-shell {
+    position: relative;
+    min-height: 12rem;
+}
+
+.search-container {
+    padding: 1rem 1rem 0.5rem;
+}
+
+.search-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.search-box {
+    position: relative;
+    max-width: 32rem;
+    flex: 1 1 auto;
+}
+
+.search-box-open {
+    z-index: 20;
+}
+
+.search-dropdown {
+    position: absolute;
+    top: calc(100% + 0.25rem);
+    left: 0;
+    right: 0;
+    z-index: 30;
+    background: #ffffff;
+    border: 1px solid #d8dde6;
+    border-radius: 0.75rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    max-height: 20rem;
+    overflow-y: auto;
+}
+
+.search-spinner {
+    min-height: 4rem;
+    position: relative;
+}
+
+.search-result {
+    width: 100%;
+    border: 0;
+    background: #ffffff;
+    padding: 0.875rem 1rem;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    transition: background-color 0.15s ease;
+}
+
+.search-result:hover,
+.search-result:focus,
+.search-result-active {
+    background: #edf4ff;
+    outline: none;
+}
+
+.search-result:focus-visible,
+.clickable:focus-visible {
+    outline: 2px solid #0176d3;
+    outline-offset: 2px;
+}
+
+.result-name {
+    font-size: 0.9rem;
+    color: #080707;
+    word-break: break-word;
+}
+
+.result-type {
+    font-size: 0.75rem;
+    color: #5c5c5c;
+    white-space: nowrap;
+}
+
+.empty-state,
+.selection-message,
+.error-message {
+    padding: 0.875rem 1rem;
+}
+
+.empty-state {
+    background: #fafaf9;
+}
+
+.empty-state-title {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #181818;
+}
+
+.empty-state-body {
+    margin: 0.25rem 0 0;
+    font-size: 0.85rem;
+    color: #5c5c5c;
+}
+
+.selection-message {
+    color: #032d60;
+    font-size: 0.875rem;
+}
+
+.error-message {
+    color: #ba0517;
+    font-size: 0.875rem;
+}
+
+.content-area {
+    position: relative;
+    min-height: 8rem;
+}
+
+.lifecycle-spinner {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.75);
+}
+
+.pipeline-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    padding: 1.5rem 0.75rem 2rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+.pipeline {
+    display: flex;
+    align-items: stretch;
+    min-width: 980px;
+}
+
+.pipeline-segment {
+    display: flex;
+    align-items: center;
+    flex: 1 0 auto;
+}
+
+.stage-shell {
+    width: 168px;
+    min-height: 148px;
+    padding: 1rem 0.875rem;
+    border-radius: 1rem;
+    border: 1px solid #d8dde6;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.stage-shell-available {
+    background: linear-gradient(180deg, #f3f9ff 0%, #ffffff 100%);
+    border-color: #7fb8ff;
+    box-shadow: 0 6px 18px rgba(1, 118, 211, 0.12);
+}
+
+.stage-shell-missing {
+    background: #fafaf9;
+    border-style: dashed;
+}
+
+.circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #0176d3;
+}
+
+.stage-shell-missing .circle {
+    background-color: #8e8d8a;
+}
+
+.connector {
+    flex: 1 0 64px;
+    height: 3px;
+    background: linear-gradient(90deg, #9cc8f7 0%, #d8dde6 100%);
+    margin: 0 0.5rem;
+    border-radius: 999px;
+}
+
+.title {
+    margin-top: 0.85rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1e1e1e;
+}
+
+.value {
+    margin-top: 0.6rem;
+    width: 100%;
+    font-size: 0.84rem;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.clickable {
+    border: 0;
+    background: transparent;
+    color: #0176d3;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 0;
+}
+
+.clickable:hover {
+    text-decoration: underline;
+}
+
+.value-empty {
+    color: #706e6b;
+}
+
+@media (max-width: 768px) {
+    .search-container {
+        padding: 0.875rem 0.875rem 0.5rem;
+    }
+
+    .search-row {
+        flex-direction: column;
+    }
+
+    .pipeline-wrapper {
+        padding: 1.25rem 0.5rem 1.5rem;
+    }
+
+    .pipeline {
+        min-width: 860px;
+    }
+
+    .stage-shell {
+        width: 152px;
+        min-height: 140px;
+        padding: 0.9rem 0.75rem;
+    }
+
+    .connector {
+        flex-basis: 44px;
+    }
+}

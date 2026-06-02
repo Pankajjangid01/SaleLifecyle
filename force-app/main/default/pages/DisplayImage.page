@@ -1,0 +1,7 @@
+<apex:page >
+
+    <apex:image url="https://developer.salesforce.com/files/salesforce-developer-network-logo.png"
+        width="300"
+        height="100"/>
+
+</apex:page>

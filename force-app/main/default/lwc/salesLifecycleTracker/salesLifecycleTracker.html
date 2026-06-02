@@ -1,0 +1,126 @@
+<template>
+    <lightning-card title="Sales Lifecycle Tracker">
+        <div class="tracker-shell">
+            <div class="search-container">
+                <div class="search-row">
+                    <div
+                        class={searchBoxClass}
+                        role="combobox"
+                        aria-expanded={dropdownAriaExpanded}
+                        aria-haspopup="listbox"
+                        aria-owns="sales-lifecycle-search-results">
+                        <lightning-input
+                            type="text"
+                            label="Search lifecycle records"
+                            variant="label-hidden"
+                            placeholder="Search Lead, Opportunity, Journal, or Invoice"
+                            value={searchKey}
+                            aria-label="Search Lead, Opportunity, Journal, or Invoice records"
+                            autocomplete="off"
+                            onchange={handleSearchInput}
+                            onfocus={handleSearchFocus}
+                            onblur={handleSearchBlur}
+                            onkeydown={handleSearchKeydown}>
+                        </lightning-input>
+
+                        <template if:true={showDropdown}>
+                            <div id="sales-lifecycle-search-results" class="search-dropdown" role="listbox">
+                                <template if:true={isSearching}>
+                                    <div class="search-spinner">
+                                        <lightning-spinner size="small" alternative-text="Searching records"></lightning-spinner>
+                                    </div>
+                                </template>
+
+                                <template if:true={hasSearchResults}>
+                                    <template for:each={searchResults} for:item="result" for:index="index">
+                                        <button
+                                            key={result.recordId}
+                                            class={result.optionClass}
+                                            type="button"
+                                            role="option"
+                                            aria-label={result.ariaLabel}
+                                            aria-selected={result.isActive}
+                                            data-index={index}
+                                            onmousedown={handleResultMouseDown}
+                                            onclick={handleResultSelect}>
+                                            <span class="result-name">{result.recordName}</span>
+                                            <span class="result-type">{result.objectType}</span>
+                                        </button>
+                                    </template>
+                                </template>
+
+                                <template if:true={showSearchEmptyState}>
+                                    <div class="empty-state" aria-live="polite">
+                                        <p class="empty-state-title">No results found</p>
+                                        <p class="empty-state-body">Try a different name or search with more characters.</p>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+
+                    <lightning-button
+                        label="Search"
+                        variant="brand"
+                        onclick={handleSearchClick}
+                        disabled={isSearchButtonDisabled}>
+                    </lightning-button>
+                </div>
+            </div>
+
+            <template if:true={selectedRecordLabel}>
+                <div class="selection-message" aria-live="polite">
+                    Selected record: {selectedRecordLabel}
+                </div>
+            </template>
+
+            <template if:true={errorMessage}>
+                <div class="error-message" aria-live="assertive">
+                    {errorMessage}
+                </div>
+            </template>
+
+            <div class="content-area">
+                <template if:true={isLoadingLifecycle}>
+                    <div class="lifecycle-spinner">
+                        <lightning-spinner size="medium" alternative-text="Loading lifecycle data"></lightning-spinner>
+                    </div>
+                </template>
+
+                <template if:true={hasLifecycleData}>
+                    <div class="pipeline-wrapper">
+                        <div class="pipeline">
+                            <template for:each={stages} for:item="stage">
+                                <div key={stage.key} class="pipeline-segment">
+                                    <div class={stage.stageClass}>
+                                        <div class="circle"></div>
+                                        <div class="title">{stage.title}</div>
+
+                                        <template if:true={stage.isAvailable}>
+                                            <button
+                                                class={stage.valueClass}
+                                                type="button"
+                                                data-id={stage.recordId}
+                                                aria-label={stage.ariaLabel}
+                                                onclick={navigateToRecord}>
+                                                {stage.recordName}
+                                            </button>
+                                        </template>
+
+                                        <template if:false={stage.isAvailable}>
+                                            <div class={stage.valueClass}>Not Available</div>
+                                        </template>
+                                    </div>
+
+                                    <template if:true={stage.showConnector}>
+                                        <div class="connector" aria-hidden="true"></div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </lightning-card>
+</template>

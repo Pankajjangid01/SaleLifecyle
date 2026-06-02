@@ -1,0 +1,36 @@
+<template>
+    <lightning-card title="Students">
+        <div class="slds-p-around_medium">
+            <template if:false={errorMsg}>
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <template for:each={students} for:item="student">
+                        <div key={student.Id} class="slds-col slds-size_1-of-4">
+                            <div class="slds-dl_horizontal slds-grid slds-list_horizontal slds-grid_align-spread">
+                                <span class="space-2">
+                                    <lightning-icon icon-name="utility:identity" variant="success" size="small"
+                                        class="slds-m-right_x-small" alternative-text="Student Name"
+                                        title="Student Name"></lightning-icon>
+                                    Name: <span onclick={navigateToStudentDetail} data-id={student.Id}
+                                        class="slds-text-heading_small pointer">{student.Name}</span>
+                                </span>
+                                <span onclick={navigateToCourseDetail} data-id={student.Course__r.Id}
+                                    class="slds-badge slds-theme_success pointer">{student.Course__r.Name}</span>
+                            </div>
+                            <div class="slds-grid">
+                                <span>
+                                    <lightning-icon icon-name="utility:email" variant="success" size="small"
+                                        class="slds-m-right_x-small" alternative-text="Student Email"
+                                        title="Student Email"></lightning-icon>
+                                    Email: <span class="slds-text-heading_small">{student.Email__c}</span>
+                                </span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </template>
+            <template if:true={errorMsg}>
+                <c-failure-comp message={errorMsg}></c-failure-comp>
+            </template>
+        </div>
+    </lightning-card>
+</template>
